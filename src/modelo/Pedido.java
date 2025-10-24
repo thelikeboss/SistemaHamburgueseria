@@ -1,4 +1,3 @@
-// Pedido.java
 package modelo;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,6 @@ public class Pedido {
     private String estado;
     private String observaciones;
     
-    // Constructores, getters y setters
     public Pedido() {}
     
     public Pedido(int idCliente, String tipoHamburguesa, double precioTotal, String estado) {
@@ -20,77 +18,70 @@ public class Pedido {
         this.tipoHamburguesa = tipoHamburguesa;
         this.precioTotal = precioTotal;
         this.estado = estado;
-    }
-
-    public int getIdCliente() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIdCliente'");
-    }
-
-    public String getTipoHamburguesa() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTipoHamburguesa'");
-    }
-
-    public double getPrecioTotal() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPrecioTotal'");
-    }
-
-    public String getObservaciones() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getObservaciones'");
-    }
-
-    public void setIdPedido(int int1) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setIdPedido'");
-    }
-
-    public void setIdCliente(int int1) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setIdCliente'");
-    }
-
-    public void setFechaHora(LocalDateTime localDateTime) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFechaHora'");
-    }
-
-    public void setTipoHamburguesa(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setTipoHamburguesa'");
-    }
-
-    public void setPrecioTotal(double double1) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setPrecioTotal'");
-    }
-
-    public void setEstado(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setEstado'");
-    }
-
-    public void setObservaciones(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setObservaciones'");
-    }
-
-    public Object getIdPedido() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIdPedido'");
-    }
-
-    public Object getEstado() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEstado'");
-    }
-
-    public Object getFechaHora() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFechaHora'");
+        this.fechaHora = LocalDateTime.now();
     }
     
-    // Getters y setters...
+    // Getters
+    public int getIdPedido() { 
+        return idPedido; 
+    }
+    
+    public int getIdCliente() { 
+        return idCliente; 
+    }
+    
+    public LocalDateTime getFechaHora() { 
+        return fechaHora; 
+    }
+    
+    public String getTipoHamburguesa() { 
+        return tipoHamburguesa; 
+    }
+    
+    public double getPrecioTotal() { 
+        return precioTotal; 
+    }
+    
+    public String getEstado() { 
+        return estado; 
+    }
+    
+    public String getObservaciones() { 
+        return observaciones; 
+    }
+    
+    // Setters
+    public void setIdPedido(int idPedido) { 
+        this.idPedido = idPedido; 
+    }
+    
+    public void setIdCliente(int idCliente) { 
+        this.idCliente = idCliente; 
+    }
+    
+    public void setFechaHora(LocalDateTime fechaHora) { 
+        this.fechaHora = fechaHora; 
+    }
+    
+    public void setTipoHamburguesa(String tipoHamburguesa) { 
+        this.tipoHamburguesa = tipoHamburguesa; 
+    }
+    
+    public void setPrecioTotal(double precioTotal) { 
+        this.precioTotal = precioTotal; 
+    }
+    
+    public void setEstado(String estado) { 
+        this.estado = estado; 
+    }
+    
+    public void setObservaciones(String observaciones) { 
+        this.observaciones = observaciones; 
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Pedido #%d - %s - $%.2f - %s", 
+            idPedido, tipoHamburguesa, precioTotal, estado);
+    }
 }

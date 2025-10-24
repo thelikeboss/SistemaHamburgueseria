@@ -21,9 +21,11 @@ public class HorarioDAO {
             pstmt.setDouble(6, horario.getHorasExtra());
             pstmt.setString(7, horario.getEstadoAsistencia());
             
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al agregar horario: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -56,6 +58,7 @@ public class HorarioDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener horarios por empleado: " + e.getMessage());
             e.printStackTrace();
         }
         
@@ -71,9 +74,11 @@ public class HorarioDAO {
             pstmt.setString(1, nuevoEstado);
             pstmt.setInt(2, idHorario);
             
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar estado del horario: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

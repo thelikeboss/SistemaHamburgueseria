@@ -16,24 +16,7 @@ public class PedidoDAO {
             pstmt.setInt(1, pedido.getIdCliente());
             pstmt.setString(2, pedido.getTipoHamburguesa());
             pstmt.setDouble(3, pedido.getPrecioTotal());
-            // obtain 'estado' via reflection in case Pedido doesn't define getEstado()
-            String estadoValue = null;
-            try {
-                java.lang.reflect.Field estadoField = pedido.getClass().getDeclaredField("estado");
-                estadoField.setAccessible(true);
-                Object estadoObj = estadoField.get(pedido);
-                estadoValue = estadoObj != null ? estadoObj.toString() : null;
-            } catch (NoSuchFieldException | IllegalAccessException ex) {
-                // fallback: try a common alternate getter name
-                try {
-                    java.lang.reflect.Method m = pedido.getClass().getMethod("getEstadoPedido");
-                    Object estadoObj = m.invoke(pedido);
-                    estadoValue = estadoObj != null ? estadoObj.toString() : null;
-                } catch (Exception ex2) {
-                    estadoValue = null;
-                }
-            }
-            pstmt.setString(4, estadoValue);
+            pstmt.setString(4, pedido.getEstado());
             pstmt.setString(5, pedido.getObservaciones());
             
             int affectedRows = pstmt.executeUpdate();
@@ -48,6 +31,7 @@ public class PedidoDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al agregar pedido: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -77,6 +61,7 @@ public class PedidoDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener pedidos: " + e.getMessage());
             e.printStackTrace();
         }
         
@@ -92,9 +77,11 @@ public class PedidoDAO {
             pstmt.setString(1, nuevoEstado);
             pstmt.setInt(2, idPedido);
             
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar estado del pedido: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -124,6 +111,7 @@ public class PedidoDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener pedidos por estado: " + e.getMessage());
             e.printStackTrace();
         }
         

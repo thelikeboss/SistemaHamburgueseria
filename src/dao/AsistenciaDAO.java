@@ -15,14 +15,32 @@ public class AsistenciaDAO {
             
             pstmt.setInt(1, asistencia.getIdEmpleado());
             pstmt.setDate(2, Date.valueOf(asistencia.getFecha()));
-            pstmt.setTime(3, asistencia.getHoraEntradaReal() != null ? Time.valueOf(asistencia.getHoraEntradaReal()) : null);
-            pstmt.setTime(4, asistencia.getHoraSalidaReal() != null ? Time.valueOf(asistencia.getHoraSalidaReal()) : null);
-            pstmt.setInt(5, asistencia.getRetrasoMinutos());
-            pstmt.setString(6, asistencia.getFalta());
             
-            return pstmt.executeUpdate() > 0;
+            if (asistencia.getHoraEntradaReal() != null) {
+                pstmt.setTime(3, Time.valueOf(asistencia.getHoraEntradaReal()));
+            } else {
+                pstmt.setNull(3, Types.TIME);
+            }
+            
+            if (asistencia.getHoraSalidaReal() != null) {
+                pstmt.setTime(4, Time.valueOf(asistencia.getHoraSalidaReal()));
+            } else {
+                pstmt.setNull(4, Types.TIME);
+            }
+            
+            pstmt.setInt(5, asistencia.getRetrasoMinutos());
+            
+            if (asistencia.getFalta() != null && !asistencia.getFalta().isEmpty()) {
+                pstmt.setString(6, asistencia.getFalta());
+            } else {
+                pstmt.setNull(6, Types.VARCHAR);
+            }
+            
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al registrar asistencia: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -63,6 +81,7 @@ public class AsistenciaDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener asistencias: " + e.getMessage());
             e.printStackTrace();
         }
         
@@ -78,9 +97,11 @@ public class AsistenciaDAO {
             pstmt.setTime(1, Time.valueOf(horaSalida));
             pstmt.setInt(2, idAsistencia);
             
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar salida: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

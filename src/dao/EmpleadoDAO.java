@@ -22,9 +22,11 @@ public class EmpleadoDAO {
             pstmt.setDouble(7, empleado.getSalarioBase());
             pstmt.setString(8, empleado.getTurnoAsignado());
             
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al agregar empleado: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -54,6 +56,7 @@ public class EmpleadoDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener empleados: " + e.getMessage());
             e.printStackTrace();
         }
         
@@ -76,9 +79,11 @@ public class EmpleadoDAO {
             pstmt.setString(8, empleado.getTurnoAsignado());
             pstmt.setInt(9, empleado.getIdEmpleado());
             
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar empleado: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -91,9 +96,11 @@ public class EmpleadoDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, idEmpleado);
-            return pstmt.executeUpdate() > 0;
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al eliminar empleado: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -125,14 +132,42 @@ public class EmpleadoDAO {
             }
             
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener empleados por puesto: " + e.getMessage());
             e.printStackTrace();
         }
         
         return empleados;
     }
-
+    
+    // MÉTODO IMPLEMENTADO - obtenerEmpleadoPorId
     public Empleado obtenerEmpleadoPorId(int idEmpleado) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerEmpleadoPorId'");
+        String sql = "SELECT * FROM Empleados WHERE ID_Empleado=?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, idEmpleado);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setIdEmpleado(rs.getInt("ID_Empleado"));
+                empleado.setNombre(rs.getString("Nombre"));
+                empleado.setPuesto(rs.getString("Puesto"));
+                empleado.setTelefono(rs.getString("Telefono"));
+                empleado.setEmail(rs.getString("Email"));
+                empleado.setDireccion(rs.getString("Direccion"));
+                empleado.setFechaContratacion(rs.getDate("Fecha_Contratacion").toLocalDate());
+                empleado.setSalarioBase(rs.getDouble("Salario_Base"));
+                empleado.setTurnoAsignado(rs.getString("Turno_asignado"));
+                return empleado;
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error al obtener empleado por ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return null;
     }
 }
