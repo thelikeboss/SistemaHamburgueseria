@@ -13,8 +13,7 @@ public class MainForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLocationRelativeTo(null);
-        
-        initComponents();
+                initComponents();
         layoutComponents();
         addEventListeners();
     }
